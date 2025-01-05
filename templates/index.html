@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter Trends Scraper</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #1da1f2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      #results {
+        margin-top: 20px;
+      }
+      .trend {
+        margin: 5px 0;
+      }
+      #json {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+      }
+      .run-again {
+        display: inline-block;
+        margin-top: 20px;
+        color: #1da1f2;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .run-again:hover {
+        color: #1a91da;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Twitter Trends Scraper</h1>
+    <button onclick="runScraper()">Click here to run the script</button>
+    <div id="results"></div>
+
+    <script>
+      async function runScraper() {
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "Loading...";
+
+        try {
+          const response = await axios.get("/scrape");
+          const data = response.data;
+
+          const timestamp = new Date().toLocaleString();
+
+          let html = `
+                    <h2>These are the most happening topics as on ${timestamp}</h2>
+                    <div class="trend">- ${data.nameoftrend1}</div>
+                    <div class="trend">- ${data.nameoftrend2}</div>
+                    <div class="trend">- ${data.nameoftrend3}</div>
+                    <div class="trend">- ${data.nameoftrend4}</div>
+                    <div class="trend">- ${data.nameoftrend5}</div>
+                    <p>The IP address used for this query was ${
+                      data.ip_address
+                    }</p>
+                    <h3>JSON extract from MongoDB:</h3>
+                    <div id="json">${JSON.stringify(data, null, 2)}</div>
+                    <br>
+                    <button onclick="runScraper()">Click here to run the query again</button>
+                `;
+
+          resultsDiv.innerHTML = html;
+        } catch (error) {
+          resultsDiv.innerHTML = `Error: ${error.message}`;
+        }
+      }
+    </script>
+  </body>
+</html>
