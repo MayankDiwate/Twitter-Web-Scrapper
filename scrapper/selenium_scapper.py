@@ -10,14 +10,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from config import (COLLECTION_NAME, DB_NAME, MONGODB_URI, TWITTER_EMAIL,
-                    TWITTER_PASSWORD, TWITTER_URL, TWITTER_USERNAME)
+                    TWITTER_PASSWORD, TWITTER_URL)
 
 
 class TwitterTrendsScraper:
     def __init__(self):
         self.twitter_url = TWITTER_URL
         self.twitter_email = TWITTER_EMAIL
-        self.twitter_username = TWITTER_USERNAME
         self.twitter_password = TWITTER_PASSWORD
         
     def get_proxy(self):
@@ -86,7 +85,7 @@ class TwitterTrendsScraper:
 
         email_input.clear()
         email_input.send_keys(TWITTER_EMAIL)
-        print("Email entered", TWITTER_EMAIL, self.twitter_username)
+        print("Email entered", TWITTER_EMAIL)
         email_input.send_keys(Keys.RETURN)
 
         time.sleep(5)

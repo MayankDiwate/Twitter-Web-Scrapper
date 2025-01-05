@@ -60,7 +60,7 @@
           const response = await axios.get("/scrape");
           const data = response.data;
 
-          const timestamp = new Date().toLocaleString();
+          const timestamp = new Date(data.timestamp).toLocaleString();
 
           let html = `
                     <h2>These are the most happening topics as on ${timestamp}</h2>
